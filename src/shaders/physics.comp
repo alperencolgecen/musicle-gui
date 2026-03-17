@@ -1,0 +1,48 @@
+#version 430 core
+
+layout(local_size_x = 256) in;
+
+struct ParticleData {
+    vec2 pos;
+    vec2 prevPos;
+    vec2 acc;
+    float mass;
+    float padding;
+};
+
+layout(std430, binding = 0) buffer ParticleBuffer {
+    ParticleData particles[];
+};
+
+uniform float deltaTime;
+uniform vec2 mousePos;
+uniform float mouseStrength;
+uniform vec2 screenRes;
+
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= particles.length()) return;
+
+    ParticleData p = particles[idx];
+
+    // Verlet Integration: pos = 2*pos - prevPos + acc * dt^2
+    vec2 tempPos = p.pos;
+    
+    // Simple attraction towards mouse
+    vec2 dir = mousePos - p.pos;
+    float distSq = dot(dir, dir) + 0.1;
+    vec2 force = (dir / sqrt(distSq)) * (mouseStrength / distSq);
+    
+    vec2 acceleration = p.acc + force / p.mass;
+    
+    p.pos = p.pos + (p.pos - p.prevPos) + acceleration * (deltaTime * deltaTime);
+    p.prevPos = tempPos;
+    
+    // Boundary Physics (Simple wrapping for now)
+    if (p.pos.x < 0) { p.pos.x = screenRes.x; p.prevPos.x = p.pos.x; }
+    if (p.pos.x > screenRes.x) { p.pos.x = 0; p.prevPos.x = p.pos.x; }
+    if (p.pos.y < 0) { p.pos.y = screenRes.y; p.prevPos.y = p.pos.y; }
+    if (p.pos.y > screenRes.y) { p.pos.y = 0; p.prevPos.y = p.pos.y; }
+
+    particles[idx] = p;
+}
