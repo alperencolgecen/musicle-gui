@@ -71,6 +71,12 @@ cmake -S . -B build_vs2022 -G "Visual Studio 17 2022" -A x64
 
 - If GLAD fails, make sure Python 3 is installed and available on PATH.
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Lisans hakları saklıdır.
+
 ## Contributing
 
 If you want to help, please open an issue or submit a pull request. Keep changes focused, and add documentation for any new features.
