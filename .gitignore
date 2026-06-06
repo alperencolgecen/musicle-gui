@@ -1,27 +1,40 @@
 # Build directories
-build/
-out/
+/build/
+/build_vs2022/
+/out/
 
-# Visual Studio files
+# Visual Studio and CMake files
 *.vcxproj*
 *.sln
-*.vs/
-*.user
+*.vcxproj.user
+*.vcxproj.filters
+*.VC.db
+*.VC.opendb
+.vs/
+.vscode/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
 
 # IDE files
-.vscode/
 *.code-workspace
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-# Executables
+# Executables / libraries / symbols
 *.exe
 *.dll
 *.lib
+*.pdb
 *.so
 *.dylib
 
-# Object files
+# Object / compiled files
 *.obj
 *.o
+*.a
 
 # Log files
 *.log
@@ -29,22 +42,20 @@ out/
 # Temporary files
 *.tmp
 *.temp
+*.swp
+*~
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# CMake files
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-Makefile
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# ImGui config
+# Project-specific files
 imgui.ini
-
-# Downloads folder
 MusicLe_Downloads/
-
-# Test files
 tmp_test.cpp
